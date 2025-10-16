@@ -30,7 +30,7 @@ const EmployeeManager = () => {
       const res = await axios.get(`${baseUrl}/all`);
       setEmployees(res.data);
     } catch {
-      setMessage('Failed to fetch employees.');
+      setMessage('⚠️ Failed to fetch employees.');
     }
   };
 
@@ -52,11 +52,11 @@ const EmployeeManager = () => {
     if (!validateForm()) return;
     try {
       await axios.post(`${baseUrl}/add`, employee);
-      setMessage('Employee added successfully.');
+      setMessage('✅ Employee added successfully.');
       fetchAllEmployees();
       resetForm();
     } catch {
-      setMessage('Error adding employee.');
+      setMessage('❌ Error adding employee.');
     }
   };
 
@@ -64,21 +64,21 @@ const EmployeeManager = () => {
     if (!validateForm()) return;
     try {
       await axios.put(`${baseUrl}/update`, employee);
-      setMessage('Employee updated successfully.');
+      setMessage('✅ Employee updated successfully.');
       fetchAllEmployees();
       resetForm();
     } catch {
-      setMessage('Error updating employee.');
+      setMessage('❌ Error updating employee.');
     }
   };
 
   const deleteEmployee = async (id) => {
     try {
-      const res = await axios.delete(`${baseUrl}/delete/${id}`);
-      setMessage(res.data);
+      await axios.delete(`${baseUrl}/delete/${id}`);
+      setMessage('🗑️ Employee deleted.');
       fetchAllEmployees();
     } catch {
-      setMessage('Error deleting employee.');
+      setMessage('❌ Error deleting employee.');
     }
   };
 
@@ -86,6 +86,7 @@ const EmployeeManager = () => {
     try {
       const res = await axios.get(`${baseUrl}/get/${idToFetch}`);
       setFetchedEmployee(res.data);
+      setMessage('');
     } catch {
       setFetchedEmployee(null);
       setMessage('Employee not found.');
@@ -111,59 +112,92 @@ const EmployeeManager = () => {
   };
 
   return (
-    <div className="employee-container">
-      <h2>Employee Management System</h2>
-      {message && <div className="banner">{message}</div>}
+    <div className="main-container">
+      <header className="navbar">
+        <h1>Employee Manager</h1>
+        <nav>
+          <a href="#add">Add / Edit</a>
+          <a href="#fetch">Fetch by ID</a>
+          <a href="#all">All Employees</a>
+        </nav>
+      </header>
 
-      <h3>{editMode ? 'Edit Employee' : 'Add Employee'}</h3>
-      <div className="form-grid">
-        <input type="number" name="id" value={employee.id} onChange={handleChange} placeholder="ID" />
-        <input type="text" name="name" value={employee.name} onChange={handleChange} placeholder="Name" />
-        <select name="gender" value={employee.gender} onChange={handleChange}>
-          <option value="">Select Gender</option>
-          <option value="MALE">MALE</option>
-          <option value="FEMALE">FEMALE</option>
-        </select>
-        <input type="text" name="department" value={employee.department} onChange={handleChange} placeholder="Department" />
-        <input type="email" name="email" value={employee.email} onChange={handleChange} placeholder="Email" />
-        <input type="text" name="contact" value={employee.contact} onChange={handleChange} placeholder="Contact" />
-        <input type="number" name="salary" value={employee.salary} onChange={handleChange} placeholder="Salary" />
+      <div className="content-box">
+        {message && <div className="msg-box">{message}</div>}
+
+        <section id="add" className="section-box">
+          <h2>{editMode ? 'Edit Employee' : 'Add Employee'}</h2>
+          <div className="form-grid">
+            <input type="number" name="id" value={employee.id} onChange={handleChange} placeholder="ID" />
+            <input type="text" name="name" value={employee.name} onChange={handleChange} placeholder="Name" />
+            <select name="gender" value={employee.gender} onChange={handleChange}>
+              <option value="">Gender</option>
+              <option value="MALE">MALE</option>
+              <option value="FEMALE">FEMALE</option>
+            </select>
+            <input type="text" name="department" value={employee.department} onChange={handleChange} placeholder="Department" />
+            <input type="email" name="email" value={employee.email} onChange={handleChange} placeholder="Email" />
+            <input type="text" name="contact" value={employee.contact} onChange={handleChange} placeholder="Contact" />
+            <input type="number" name="salary" value={employee.salary} onChange={handleChange} placeholder="Salary" />
+          </div>
+
+          <div className="btn-group">
+            {!editMode ? (
+              <button className="btn add" onClick={addEmployee}>Add</button>
+            ) : (
+              <>
+                <button className="btn update" onClick={updateEmployee}>Update</button>
+                <button className="btn cancel" onClick={resetForm}>Cancel</button>
+              </>
+            )}
+          </div>
+        </section>
+
+        <section id="fetch" className="section-box">
+          <h2>Fetch Employee by ID</h2>
+          <div className="fetch-box">
+            <input
+              type="number"
+              value={idToFetch}
+              onChange={(e) => setIdToFetch(e.target.value)}
+              placeholder="Enter Employee ID"
+            />
+            <button className="btn fetch" onClick={getEmployeeById}>Fetch</button>
+          </div>
+          {fetchedEmployee && (
+            <div className="fetched-box">
+              <pre>{JSON.stringify(fetchedEmployee, null, 2)}</pre>
+            </div>
+          )}
+        </section>
+
+        <section id="all" className="section-box">
+          <h2>All Employees</h2>
+          <table className="employee-table">
+            <thead>
+              <tr>
+                {Object.keys(employee).map((key) => (
+                  <th key={key}>{key.toUpperCase()}</th>
+                ))}
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {employees.map((emp) => (
+                <tr key={emp.id}>
+                  {Object.keys(employee).map((key) => (
+                    <td key={key}>{emp[key]}</td>
+                  ))}
+                  <td className="action-td">
+                    <button className="btn small edit" onClick={() => handleEdit(emp)}>Edit</button>
+                    <button className="btn small delete" onClick={() => deleteEmployee(emp.id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
       </div>
-
-      {!editMode ? (
-        <button onClick={addEmployee}>Add Employee</button>
-      ) : (
-        <>
-          <button onClick={updateEmployee}>Update Employee</button>
-          <button onClick={resetForm}>Cancel</button>
-        </>
-      )}
-
-      <h3>Get Employee by ID</h3>
-      <input type="number" value={idToFetch} onChange={(e) => setIdToFetch(e.target.value)} />
-      <button onClick={getEmployeeById}>Fetch</button>
-      {fetchedEmployee && <pre>{JSON.stringify(fetchedEmployee, null, 2)}</pre>}
-
-      <h3>All Employees</h3>
-      <table>
-        <thead>
-          <tr>
-            {Object.keys(employee).map((key) => <th key={key}>{key}</th>)}
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((emp) => (
-            <tr key={emp.id}>
-              {Object.keys(employee).map((key) => <td key={key}>{emp[key]}</td>)}
-              <td>
-                <button onClick={() => handleEdit(emp)}>Edit</button>
-                <button onClick={() => deleteEmployee(emp.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 };

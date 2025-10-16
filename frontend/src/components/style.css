@@ -1,140 +1,148 @@
-.student-container {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 30px;
-  border-radius: 12px;
-  background-color: white;
-  box-shadow: 0px 4px 16px black;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+body {
+  margin: 0;
+  font-family: "Tahoma", "Verdana", sans-serif;
+  background-color: #f5f5f5;
 }
 
-h2, h3 {
-  color: #333;
-  margin-bottom: 10px;
+/* Navbar */
+.navbar {
+  background-color: #003366;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 4px solid #001f3f;
 }
 
-input, select {
-  padding: 10px;
-  margin: 8px 0;
-  width: 100%;
+.navbar h1 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.navbar nav a {
+  color: #e0e0e0;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 15px;
+}
+
+.navbar nav a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+/* Container */
+.main-container {
+  max-width: 1100px;
+  margin: 20px auto;
+  background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 6px;
-  box-sizing: border-box;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
+.content-box {
+  padding: 20px 30px;
+}
+
+/* Message Box */
+.msg-box {
+  background-color: #e6f7ff;
+  border-left: 5px solid #0074d9;
+  padding: 10px;
+  margin-bottom: 15px;
+  color: #003366;
+  font-weight: bold;
+}
+
+/* Form Styles */
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
 
+input, select {
+  padding: 8px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.section-box {
+  margin-top: 25px;
+  border-top: 2px solid #ddd;
+  padding-top: 20px;
+}
+
+/* Buttons */
 .btn-group {
   margin-top: 10px;
 }
 
-button {
-  padding: 10px 16px;
-  margin: 10px 8px 10px 0;
+button.btn {
+  padding: 8px 14px;
   border: none;
+  border-radius: 4px;
   color: white;
-  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  font-size: 14px;
+  margin-right: 6px;
 }
 
-.btn-blue {
-  background-color: #007bff;
+.btn.add { background-color: #0066cc; }
+.btn.update { background-color: #009933; }
+.btn.cancel { background-color: #999; }
+.btn.fetch { background-color: #005599; }
+.btn.edit { background-color: #008000; }
+.btn.delete { background-color: #cc0000; }
+
+.btn:hover { opacity: 0.85; }
+
+.btn.small {
+  padding: 4px 8px;
+  font-size: 13px;
 }
 
-.btn-blue:hover {
-  background-color: #0056b3;
+/* Fetch Section */
+.fetch-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-.btn-green {
-  background-color: #28a745;
+.fetched-box pre {
+  background-color: #f4f4f4;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-.btn-green:hover {
-  background-color: #1c7c34;
-}
-
-.btn-red {
-  background-color: #dc3545;
-}
-
-.btn-red:hover {
-  background-color: #a71d2a;
-}
-
-.btn-gray {
-  background-color: #6c757d;
-}
-
-.btn-gray:hover {
-  background-color: #565e64;
-}
-
-/* Table container removed to avoid scroll */
-table {
+/* Table */
+.employee-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  background-color: white;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+  margin-top: 15px;
+  border: 1px solid #bbb;
+  font-size: 14px;
 }
 
-th, td {
-  padding: 12px 14px;
+.employee-table th, .employee-table td {
+  border: 1px solid #bbb;
+  padding: 8px 10px;
   text-align: left;
-  border-bottom: 1px solid #e0e0e0;
-  vertical-align: middle;
 }
 
-th {
-  background-color: #f1f1f1;
-  font-weight: 600;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-pre {
+.employee-table th {
   background-color: #f0f0f0;
-  padding: 10px;
-  border-radius: 6px;
-  overflow-x: auto;
 }
 
-.message {
-  margin-top: 20px;
-  color: #dc3545;
-  font-weight: 500;
-}
-.message-banner {
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #4caf50; 
-  color: white;
-  padding: 12px 24px;
-  border-radius: 6px;
-  font-weight: bold;
-  z-index: 1000;
-  text-align: center;
-  min-width: 300px;
-  max-width: 80%;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+.action-td {
+  display: flex;
+  gap: 5px;
 }
 
-.message-banner.error {
-  background-color: #f44336;
-}
-
-.message-banner.success {
-  background-color: #4caf50; 
+.employee-table tr:nth-child(even) {
+  background-color: #fafafa;
 }
