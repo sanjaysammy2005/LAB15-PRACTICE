@@ -68,7 +68,7 @@
 	</dependencies>
 
 	<build>
-	<finalName>springbootemployeeapi</finalName>
+	<finalName>lab6practicespringboot</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
