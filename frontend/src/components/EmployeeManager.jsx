@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import config from './config';
+
 import './style.css';
 const API_URL = `${import.meta.env.VITE_API_URL}/employeeapi`;
 const EmployeeManager = () => {
