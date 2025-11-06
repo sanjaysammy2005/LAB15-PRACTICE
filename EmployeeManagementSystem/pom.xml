@@ -11,7 +11,7 @@
 	<groupId>com.klef.dev</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	
 	<name>EmployeeManagementSystem</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -68,7 +68,7 @@
 	</dependencies>
 
 	<build>
-	<finalName>lab6practicespringboot</finalName>
+	
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
