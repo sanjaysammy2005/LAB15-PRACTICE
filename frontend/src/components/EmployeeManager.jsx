@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import config from './config';
 import './style.css';
-
+const API_URL = `${import.meta.env.VITE_API_URL}/employeeapi`;
 const EmployeeManager = () => {
   const [employees, setEmployees] = useState([]);
   const [employee, setEmployee] = useState({
@@ -19,7 +19,7 @@ const EmployeeManager = () => {
   const [message, setMessage] = useState('');
   const [editMode, setEditMode] = useState(false);
 
-  const baseUrl = `${config.url}/employeeapi`;
+  //const API_URL = `${config.url}/employeeapi`;
 
   useEffect(() => {
     fetchAllEmployees();
@@ -27,7 +27,7 @@ const EmployeeManager = () => {
 
   const fetchAllEmployees = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/all`);
+      const res = await axios.get(`${API_URL}/all`);
       setEmployees(res.data);
     } catch {
       setMessage('⚠️ Failed to fetch employees.');
@@ -51,7 +51,7 @@ const EmployeeManager = () => {
   const addEmployee = async () => {
     if (!validateForm()) return;
     try {
-      await axios.post(`${baseUrl}/add`, employee);
+      await axios.post(`${API_URL}/add`, employee);
       setMessage('✅ Employee added successfully.');
       fetchAllEmployees();
       resetForm();
@@ -63,7 +63,7 @@ const EmployeeManager = () => {
   const updateEmployee = async () => {
     if (!validateForm()) return;
     try {
-      await axios.put(`${baseUrl}/update`, employee);
+      await axios.put(`${API_URL}/update`, employee);
       setMessage('✅ Employee updated successfully.');
       fetchAllEmployees();
       resetForm();
@@ -74,7 +74,7 @@ const EmployeeManager = () => {
 
   const deleteEmployee = async (id) => {
     try {
-      await axios.delete(`${baseUrl}/delete/${id}`);
+      await axios.delete(`${API_URL}/delete/${id}`);
       setMessage('🗑️ Employee deleted.');
       fetchAllEmployees();
     } catch {
@@ -84,7 +84,7 @@ const EmployeeManager = () => {
 
   const getEmployeeById = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/get/${idToFetch}`);
+      const res = await axios.get(`${API_URL}/get/${idToFetch}`);
       setFetchedEmployee(res.data);
       setMessage('');
     } catch {
